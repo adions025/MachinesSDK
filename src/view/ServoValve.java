@@ -51,8 +51,9 @@ public class ServoValve extends JPanel{
 
 		int count = 1;
 		for (int i = 0; i<NUM_VALES; i++) {
-			valves[i] = new JPanel(new MigLayout("", "[min!]20[15%!]20[]", //""));
-					"[15%][15%][15%][15%][15%]"));
+			valves[i] = new JPanel(new MigLayout("", "[min!]20[15%!]20[]",// ""));
+					"[min!][min!][min!][min!][min!]"));
+//		"[15%][15%][15%][15%][15%]"));
 			valves[i].setBorder(etchedLoweredBorder);
 
 			lblServo[i] = new JLabel("Run servo "+ i + " adjustment:");

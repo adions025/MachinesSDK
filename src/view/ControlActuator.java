@@ -37,6 +37,7 @@ public class ControlActuator extends JPanel {
 		JPanel presure2 = new JPanel(new MigLayout("", "[][fill,15%]", ""));
 		JPanel presure3 = new JPanel(new MigLayout("", "[][fill,15%]", ""));
 		JPanel sledBrake= new JPanel(new MigLayout("", "[][fill,15%]", ""));
+		
 		for (int i = 0; i<CONTROL_PRESURE; i++) {
 			lblPressure1[i] = new JLabel("Servo position "+(i+1) + ":");
 			jtxPressure1[i] = new JTextField();
@@ -56,7 +57,6 @@ public class ControlActuator extends JPanel {
 			presure3.add(lblPressure3[i], "");
 			presure3.add(jtxPressure3[i], "wrap");
 		}
-
 
 		int c = 1;
 		for (int i = 0; i<SLED_BRAKES; i++) {
@@ -84,7 +84,6 @@ public class ControlActuator extends JPanel {
 			if (i%2!=0) {
 				c = 1;
 			}
-
 		}
 
 		Border etchedLoweredBorder = 
@@ -103,9 +102,7 @@ public class ControlActuator extends JPanel {
 
 		this.add(content, "push, grow, wrap");
 
-
 		JPanel content2 = new JPanel(new MigLayout("", ""));
-		//		content2.setBorder(etchedLoweredBorder);
 		this.add(content2, "push, grow");
 	}
 }
