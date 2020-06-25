@@ -7,6 +7,7 @@ import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -92,10 +93,13 @@ public class InputOutput extends JPanel {
 			((JPanel)general.getViewport().getView()).add(checkSiemens[i], 
 					"wrap");
 		}
-
+		
+		JButton btnRunStop = new JButton("Start");
+		
 		//first vertical panel for general in out
-		JPanel content = new JPanel(new MigLayout("", "[]", "[]"));
-		content.add(general, "grow, push");
+		JPanel content = new JPanel(new MigLayout("", "[]", "[][]"));
+		content.add(general, "grow, push, wrap");
+		content.add(btnRunStop);
 
 		Border etchedLoweredBorder = 
 				BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
