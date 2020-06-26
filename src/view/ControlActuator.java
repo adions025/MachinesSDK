@@ -72,7 +72,35 @@ public class ControlActuator extends JPanel {
 
 	private static final int NUM_HPPFAST_AI = 1;
 	private Object [][] hppFastAi = new Object[NUM_DI_DQ_AI][NUM_HPPFAST_AI];
+	
+	//HPP SLED brake components
+	private static final int NUM_SBRAKE_DI = 1;
+	private Object [][] sBrakeDi = new Object[NUM_DI_DQ_AI][NUM_SBRAKE_DI];
+	
+	private static final int NUM_SBRAKE_DQ = 3;
+	private Object [][] sBrakeDq = new Object[NUM_DI_DQ_AI][NUM_SBRAKE_DQ];
 
+	private static final int NUM_SBRAKE_AI = 1;
+	private Object [][] sBrakeAi = new Object[NUM_DI_DQ_AI][NUM_SBRAKE_AI];
+	
+	private static final int NUM_SBRAKE_AQ = 1;
+	private static final int NUM_AQ = 3;
+	private Object [][] sBrakeAq = new Object[NUM_AQ][NUM_SBRAKE_AQ];
+	
+	//Actuator Transducer
+	private static final int NUM_TRANS_DI = 2;
+	private Object [][] transDi = new Object[NUM_DI_DQ_AI][NUM_TRANS_DI];
+	
+	private static final int NUM_TRANS_DQ = 2;
+	private Object [][] transDq = new Object[NUM_DI_DQ_AI][NUM_TRANS_DQ];
+
+	private static final int NUM_TRANS_AI = 5;
+	private Object [][] transAi = new Object[NUM_TRANS_AI][NUM_TRANS_AI];
+	
+	//COMBINED
+	private static final int NUM_COMBI_DQ = 4;
+	private Object [][] combiDq = new Object[NUM_DI_DQ_AI][NUM_COMBI_DQ];
+	
 	public ControlActuator() {
 		initComponents();
 	}
@@ -84,10 +112,10 @@ public class ControlActuator extends JPanel {
 				File.separatorChar + "actions" + File.separatorChar + 
 				"green.png").normalize();
 
-		this.setLayout(new MigLayout("", "[]","[fill, 20%][fill, 80%]"));
+		this.setLayout(new MigLayout("", "0[]0","0[fill, 20%]0[fill, 80%]0"));
 
 		JPanel content = new JPanel(new MigLayout("", "[20%][20%][20%][20%]",
-				"[]"));
+				"0[]"));
 
 		JPanel presure1 = new JPanel(new MigLayout("", "[][fill,15%]", ""));
 		JPanel presure2 = new JPanel(new MigLayout("", "[][fill,15%]", ""));
@@ -144,26 +172,27 @@ public class ControlActuator extends JPanel {
 
 		Border etchedLoweredBorder = 
 				BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
-		presure1.setBorder(etchedLoweredBorder);
+//		presure1.setBorder(etchedLoweredBorder);
 		content.add(presure1, "grow, push");
 
-		presure2.setBorder(etchedLoweredBorder);
+//		presure2.setBorder(etchedLoweredBorder);
 		content.add(presure2, "grow, push");
 
-		presure3.setBorder(etchedLoweredBorder);
+//		presure3.setBorder(etchedLoweredBorder);
 		content.add(presure3, "grow, push");
 
-		sledBrake.setBorder(etchedLoweredBorder);
+//		sledBrake.setBorder(etchedLoweredBorder);
 		content.add(sledBrake, "grow, push");
 
 		content.setBorder(etchedLoweredBorder);
 		this.add(content, "push, grow, wrap");
 
 		//here start second row
-		JPanel content2 = new JPanel(new MigLayout("", "[][][]"));
+		JPanel content2 = new JPanel(new MigLayout("", "[][][][]", "0[]"));
 		
 		//here start second row and first column
-		JPanel pullBack = new JPanel(new MigLayout("", "[][fill,15%][]"));
+		JPanel pullBack = new JPanel(new MigLayout("", "[][fill,15%][]", 
+				"[]"));
 		int ID_NAME = 0;
 		int ID_STATE = 1;
 		for (int i = 0; i<pullDi[ID_NAME].length; i++) {
@@ -250,17 +279,14 @@ public class ControlActuator extends JPanel {
 		}
 		//AIs
 		((JLabel)pullDq[ID_NAME][0]).setText(
-				"Retraction cylinder rod sensor:");
+				"Hydraulic pressure supply:");
 		
 		((JLabel)pullDq[ID_NAME][1]).setText(
-				"Retraction cylinder rod sensor:");
+				"SSI Laser sensor:");
 		
-		pullBack.setBorder(etchedLoweredBorder);
+//		pullBack.setBorder(etchedLoweredBorder);
 		content2.add(pullBack, "grow, push");
 
-		//		JPanel presure1 = new JPanel(new MigLayout("", "[][fill,15%]", ""));
-		
-		
 		//here start second row and second column
 		JPanel fastCharge = new JPanel(new MigLayout("", "[][][]"));
 		
@@ -338,18 +364,20 @@ public class ControlActuator extends JPanel {
 		((JLabel)fastDq[ID_NAME][10]).setText(
 				"26Y16 valve:");
 		
-		fastCharge.setBorder(etchedLoweredBorder);
+//		fastCharge.setBorder(etchedLoweredBorder);
 		content2.add(fastCharge, "grow, push");
 		
 		
-
-		
 		//here start second row and third column
-		JPanel fastCharge2 = new JPanel(new MigLayout("", "[][fill,15%][]"));
+		JPanel mix = new JPanel(new MigLayout("", "[]"));
+		//here start second row and third column-first row
+		JPanel fastCharge2 = new JPanel(new MigLayout("", "[][fill,15%][]",
+				"[]"));
 		
 		for (int i = 0; i<fastAi[ID_NAME].length; i++) {
 			fastAi[ID_NAME][i] = new JLabel();
 			fastAi[ID_TXT][i]=new JTextField();
+			((JTextField)fastAi[ID_TXT][i]).setEnabled(false);
 
 			fastCharge2.add((JLabel) fastAi[ID_NAME][i], "");
 			fastCharge2.add((JTextField) fastAi[ID_TXT][i], "wrap");
@@ -376,14 +404,100 @@ public class ControlActuator extends JPanel {
 		((JLabel)fastAi[ID_NAME][6]).setText(
 				"Low pressure sensor:");
 		
-		fastCharge2.setBorder(etchedLoweredBorder);
-		content2.add(fastCharge2, "grow, push");
+//		fastCharge2.setBorder(etchedLoweredBorder);
+//		content2.add(fastCharge2, "grow, push");
 		
+//		fastCharge2.setBorder(etchedLoweredBorder);
+		mix.add(fastCharge2, "grow, push, wrap");
 		
-		//here start second row and fourth column
+		JPanel actuatorTra = new JPanel(new MigLayout("", "[][fill,15%][]","[]"));
+		
+		for (int i = 0; i<transDi[ID_NAME].length; i++) {
+			transDi[ID_NAME][i] = new JLabel();
+			
+			((JLabel)transDi[ID_NAME][i]).setText(
+					"Hall sensor:" + " "+(i+1));
+			
+			transDi[ID_STATE][i]=new JLabel();
+			((JLabel)transDi[ID_STATE][i]).setIcon(
+					new ImageIcon(String.valueOf(evtDI)));
+			actuatorTra.add((JLabel) transDi[ID_NAME][i], "");
+			actuatorTra.add((JLabel) transDi[ID_STATE][i], "wrap");
+		}
+		
+		for (int i = 0; i<transDq[ID_NAME].length; i++) {
+			transDq[ID_NAME][i] = new JLabel();
+			
+			((JLabel)transDq[ID_NAME][i]).setText(
+					"Hall sensor reset " + " "+(i+1)+":");
+			
+			transDq[ID_CHECK][i]=new JCheckBox();
+
+			actuatorTra.add((JLabel) transDq[ID_NAME][i], "");
+			actuatorTra.add((JCheckBox) transDq[ID_CHECK][i], "wrap");
+		}
+		
+		for (int i = 0; i<transAi[ID_NAME].length; i++) {
+			transAi[ID_NAME][i] = new JLabel();
+			transAi[ID_TXT][i]=new JTextField();
+			((JTextField)transAi[ID_TXT][i]).setEnabled(false);
+
+			actuatorTra.add((JLabel) transAi[ID_NAME][i], "");
+			actuatorTra.add((JTextField) transAi[ID_TXT][i], "wrap");
+		}
+		
+		((JLabel)transAi[ID_NAME][0]).setText(
+				"L aire pressure:");
+		
+		((JLabel)transAi[ID_NAME][1]).setText(
+				"Sled accelerometer:");
+		
+		((JLabel)transAi[ID_NAME][2]).setText(
+				"Rod accelerometer:");
+		
+		((JLabel)transAi[ID_NAME][3]).setText(
+				"Hall sensor 1 counter:");
+		
+		((JLabel)transAi[ID_NAME][4]).setText(
+				"Hall sensor 2 counter:");
+		
+			
+//		actuatorTra.setBorder(etchedLoweredBorder);
+		mix.add(actuatorTra, "grow, push, wrap");
+		
+		// here start fourth column
+		JPanel combined = new JPanel(new MigLayout("", "[][fill,15%][]","[]"));
+		
+		for (int i = 0; i<combiDq[ID_NAME].length; i++) {
+			combiDq[ID_NAME][i] = new JLabel();
+			combiDq[ID_CHECK][i]=new JCheckBox();
+
+			combined.add((JLabel) combiDq[ID_NAME][i], "");
+			combined.add((JCheckBox) combiDq[ID_CHECK][i], "wrap");
+		}
+		
+		((JLabel)combiDq[ID_NAME][0]).setText(
+				"Brake rod:");
+		
+		((JLabel)combiDq[ID_NAME][1]).setText(
+				"Enable pull back:");
+		
+		((JLabel)combiDq[ID_NAME][2]).setText(
+				"Fast charging:");
+		
+		((JLabel)combiDq[ID_NAME][3]).setText(
+				"Refill N2:");
+		
+//		combined.setBorder(etchedLoweredBorder);
+		mix.add(combined, "grow, push, wrap");
+		
+//		mix.setBorder(etchedLoweredBorder);
+		content2.add(mix, "grow, push");
+		
+		//here start second row on fourth column
 		JPanel mixed = new JPanel(new MigLayout("", ""));
 		//first row inside fourth column
-		JPanel hppBrake = new JPanel(new MigLayout("", "[][fill,15%][]"));
+		JPanel hppBrake = new JPanel(new MigLayout("", "[][fill,15%][]","[]"));
 		for (int i = 0; i<hppBrakeDi[ID_NAME].length; i++) {
 			hppBrakeDi[ID_NAME][i] = new JLabel();
 			hppBrakeDi[ID_STATE][i]=new JLabel();
@@ -416,7 +530,7 @@ public class ControlActuator extends JPanel {
 		((JLabel)hppBrakeDq[ID_NAME][1]).setText(
 				"Stop reset hydraulic brakes:");
 		
-		hppBrake.setBorder(etchedLoweredBorder);
+//		hppBrake.setBorder(etchedLoweredBorder);
 		mixed.add(hppBrake, "grow, push, wrap");
 		
 		for (int i = 0; i<hppBrakeAi[ID_NAME].length; i++) {
@@ -430,12 +544,12 @@ public class ControlActuator extends JPanel {
 		((JLabel)hppBrakeAi[ID_NAME][0]).setText(
 				"Pressure sensor hydraulic brakes:");
 		
-		hppBrake.setBorder(etchedLoweredBorder);
+//		hppBrake.setBorder(etchedLoweredBorder);
 		mixed.add(hppBrake, "grow, push, wrap");
 		
 		
 		//second row inside fourth column
-		JPanel hppFastChar = new JPanel(new MigLayout("", "[][fill,15%][]"));
+		JPanel hppFastChar = new JPanel(new MigLayout("", "[][fill,15%][]","[]"));
 
 		for (int i = 0; i<hppFastDi[ID_NAME].length; i++) {
 			hppFastDi[ID_NAME][i] = new JLabel();
@@ -482,18 +596,74 @@ public class ControlActuator extends JPanel {
 				"Pressure sensor hydraulic FC:");
 		
 
-		hppFastChar.setBorder(etchedLoweredBorder);
+//		hppFastChar.setBorder(etchedLoweredBorder);
 		mixed.add(hppFastChar, "grow, push, wrap");
 		
 		//third row inside fourth column
-		JPanel hppSledBrake = new JPanel(new MigLayout("", "[][][]"));
+		JPanel hppSledBrake = new JPanel(new MigLayout("", "[][fill,15%][]","[]"));
 		
-		hppSledBrake.setBorder(etchedLoweredBorder);
+		for (int i = 0; i<sBrakeDi[ID_NAME].length; i++) {
+			sBrakeDi[ID_NAME][i] = new JLabel();
+			sBrakeDi[ID_STATE][i]=new JLabel();
+			((JLabel)sBrakeDi[ID_STATE][i]).setIcon(
+					new ImageIcon(String.valueOf(evtDI)));
+			hppSledBrake.add((JLabel) sBrakeDi[ID_NAME][i], "");
+			hppSledBrake.add((JLabel) sBrakeDi[ID_STATE][i], "wrap");
+			
+		}
+		((JLabel)sBrakeDi[ID_NAME][0]).setText(
+				"Running hydraulic sled:");
+		
+		
+		for (int i = 0; i<sBrakeDq[ID_NAME].length; i++) {
+			sBrakeDq[ID_NAME][i] = new JLabel();
+			sBrakeDq[ID_CHECK][i]=new JCheckBox();
+			hppSledBrake.add((JLabel) sBrakeDq[ID_NAME][i], "");
+			hppSledBrake.add((JCheckBox) sBrakeDq[ID_CHECK][i], "wrap");
+		}
+		((JLabel)sBrakeDq[ID_NAME][0]).setText(
+				"Switch on hydraulic sled:");
+		
+		((JLabel)sBrakeDq[ID_NAME][1]).setText(
+				"Load valve hydraulic sled:");
+		
+		((JLabel)sBrakeDq[ID_NAME][2]).setText(
+				"Accumulator valve hydraulic sled:");
+		
+		
+		for (int i = 0; i<sBrakeAi[ID_NAME].length; i++) {
+			sBrakeAi[ID_NAME][i] = new JLabel();
+			sBrakeAi[ID_TXT][i]=new JTextField();
+			((JTextField)sBrakeAi[ID_TXT][i]).setEnabled(false);
+			hppSledBrake.add((JLabel) sBrakeAi[ID_NAME][i], "");
+			hppSledBrake.add((JTextField) sBrakeAi[ID_TXT][i], "wrap");
+		}
+		
+		((JLabel)sBrakeAi[ID_NAME][0]).setText(
+				"Pressure sensor hydraulic sled:");
+		int ID_STATEAQ = 2;
+		for (int i = 0; i<sBrakeAq[ID_NAME].length; i++) {
+			sBrakeAq[ID_NAME][i] = new JLabel();
+			sBrakeAq[ID_TXT][i]=new JTextField();
+			sBrakeAq[ID_STATEAQ][i] = new JLabel();
+			((JTextField)sBrakeAq[ID_TXT][i]).setEnabled(false);
+			((JLabel)sBrakeAq[ID_STATEAQ][i]).setIcon(
+					new ImageIcon(String.valueOf(evtDI)));
+			hppSledBrake.add((JLabel) sBrakeAq[ID_NAME][i], "");
+			hppSledBrake.add((JTextField) sBrakeAq[ID_TXT][i], "");
+			hppSledBrake.add((JLabel) sBrakeAq[ID_STATEAQ][i], "wrap");
+
+		}
+		
+		((JLabel)sBrakeAq[ID_NAME][0]).setText(
+				"Set point hydraulic sled:");
+		
+//		hppSledBrake.setBorder(etchedLoweredBorder);
 		mixed.add(hppSledBrake, "grow, push");
 		
 		
 
-		mixed.setBorder(etchedLoweredBorder);
+//		mixed.setBorder(etchedLoweredBorder);
 		content2.add(mixed, "grow, push");
 		
 		
@@ -501,3 +671,25 @@ public class ControlActuator extends JPanel {
 		this.add(content2, "push, grow");
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

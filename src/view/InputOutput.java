@@ -44,7 +44,7 @@ public class InputOutput extends JPanel {
 	}
 
 	private void initComponents() {
-		this.setLayout(new MigLayout("", "[fill,5%][fill,80%]"));
+		this.setLayout(new MigLayout("", "[fill,5%][fill,80%]", "0[]"));
 		general = new JScrollPane(new JPanel(new MigLayout("", "[]")));
 		general.setVerticalScrollBarPolicy(
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);

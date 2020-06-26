@@ -1,11 +1,14 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -15,7 +18,7 @@ import javax.swing.border.EtchedBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-public class ServoValve extends JPanel{
+public class ServoValve extends JPanel  implements ActionListener{
 
 	private static final int NUM_VALES = 12;
 	private JPanel []valves = new JPanel[NUM_VALES];
@@ -33,6 +36,10 @@ public class ServoValve extends JPanel{
 	private JLabel [] lblSetPoint = new JLabel[NUM_VALES];
 	private JTextField [] jtxtSetPoint = new JTextField[NUM_VALES];
 	private JLabel [] lblBtnPoint = new JLabel[NUM_VALES];
+	
+	private JButton btnRunStop;
+	private JButton btnApply;
+	private boolean runFlag;
 
 	public ServoValve() {
 		initComponent();
@@ -45,7 +52,11 @@ public class ServoValve extends JPanel{
 				File.separatorChar + "actions" + File.separatorChar + 
 				"player_play.png").normalize();
 
-		this.setLayout(new MigLayout("", "[][][][]","[][][]"));
+		this.setLayout(new MigLayout("", "", 
+				"0[fill, grow, push, 98%] 0[fill, grow, push, 2%]0"));
+		
+		JPanel valvesPa = new JPanel(new MigLayout("", "[][][][]","[][][]"));
+
 		Border etchedLoweredBorder = 
 				BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 
@@ -77,9 +88,9 @@ public class ServoValve extends JPanel{
 			lblBtnPoint[i] = new JLabel();
 			lblBtnPoint[i].setIcon(new ImageIcon(String.valueOf(evtDI)));
 			if (count % 4 == 0) {
-				this.add(valves[i], "grow, push, wrap");
+				valvesPa.add(valves[i], "grow, push, wrap");
 			}else {
-				this.add(valves[i], "grow, push");
+				valvesPa.add(valves[i], "grow, push");
 			}
 			valves[i].add(lblServo[i], "grow, push");
 			valves[i].add(checkValve[i], "grow, push, wrap");
@@ -97,6 +108,40 @@ public class ServoValve extends JPanel{
 			valves[i].add(jtxtSetPoint[i],  "growx, push, ");
 			valves[i].add(lblBtnPoint[i], "grow, push, wrap");
 			count++;
+		}
+		
+		valvesPa.setBorder(etchedLoweredBorder);
+		this.add(valvesPa, "grow, push, wrap");
+		
+		JPanel footer = new JPanel(new MigLayout("", "", ""));
+		footer.setBorder(etchedLoweredBorder);
+		
+		btnRunStop = new JButton("Start");
+		btnApply = new JButton("Apply");
+		btnApply.addActionListener(this);
+		btnRunStop.addActionListener(this);
+		footer.add(btnApply);
+		footer.add(btnRunStop);
+		this.add(footer, "grow, push, wrap");
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnApply) {
+			//HERE APPLY BUTTON FUNCTION
+		}
+		if (e.getSource() == btnRunStop) {
+			changeBtnState();
+		}
+	}
+	
+	private void changeBtnState() {
+		if (runFlag) {
+			runFlag = false;
+			btnRunStop.setText("Stop");
+		}else {
+			runFlag = true;
+			btnRunStop.setText("Start");
 		}
 	}
 }
