@@ -52,29 +52,35 @@ public class InCalibrationActuator extends JPanel{
 	private JTextField [] jTxtOffset = new JTextField[NUM_OFFSET];
 	private JLabel [] lblBtnOffset = new JLabel[NUM_OFFSET];
 
-	private static final int NUM_RUN_APPLY = 2;
-	private JLabel [] lblRunApply = new JLabel[NUM_RUN_APPLY];
-	private JCheckBox [] checkRunApply = new JCheckBox[NUM_RUN_APPLY];
-
+	private static final int NUM_OTHER = 3;
+	private JLabel [] lblOther = new JLabel[NUM_OTHER];
+	private JTextField [] jTxtOther = new JTextField[NUM_OTHER];
+	
 	public InCalibrationActuator() {
 		initComponents();
 	}
 
 	private void initComponents() {
+//		String filePathTmp = new File("").getAbsolutePath();
+//		Path evtDI = Paths.get(filePathTmp, File.separatorChar + "assets" + 
+//				File.separatorChar + "icons" + File.separatorChar + "22x22"+
+//				File.separatorChar + "actions" + File.separatorChar + 
+//				"player_play.png").normalize();
+		
 		String filePathTmp = new File("").getAbsolutePath();
-		Path evtDI = Paths.get(filePathTmp, File.separatorChar + "assets" + 
-				File.separatorChar + "icons" + File.separatorChar + "22x22"+
-				File.separatorChar + "actions" + File.separatorChar + 
+		Path evtDI = Paths.get(filePathTmp, File.separatorChar + "icons" + 
+				File.separatorChar + "22x22"
+				+ File.separatorChar + "actions" + File.separatorChar + 
 				"player_play.png").normalize();
 
 		Border etchedLoweredBorder = 
 				BorderFactory.createEtchedBorder(EtchedBorder.LOWERED);
 
-		this.setLayout(new MigLayout("", "[][]"));
+		this.setLayout(new MigLayout("", "[][][]", "[][][]"));
 
 		//--------------------------------------------------------------------//
 		JPanel content = new JPanel(new MigLayout("", //"",""));
-				"[min!][fill, 15%!]", ""));
+				"[25%!][fill, 15%!]", ""));
 		for (int i = 0; i<NUM_SERVO; i++) {
 			lblServo[i] = new JLabel("Servo " + (i+1) + " position [%]:");
 			jTxtServo[i] = new JTextField();
@@ -88,7 +94,7 @@ public class InCalibrationActuator extends JPanel{
 
 		//--------------------------------------------------------------------//
 		JPanel contentSpan = new JPanel(new MigLayout("", //"",""));
-				"[min!][fill, 15%!][min!]", ""));
+				"[33%!][fill, 15%!][min!]", ""));
 		for (int i = 0; i<NUM_SERVO; i++) {
 			lblSpanSensor[i] = new JLabel("Span "+ (i+1) +
 					" servo position [16 bits to %]: ");
@@ -106,7 +112,7 @@ public class InCalibrationActuator extends JPanel{
 
 		//--------------------------------------------------------------------//
 		JPanel contentOffSpan = new JPanel(new MigLayout("", //"",""));
-				"[min!][fill, 15%!][min!]", ""));
+				"[28%!][fill, 15%!][min!]", ""));
 		for (int i = 0; i<NUM_SERVO; i++) {
 			lblOffServo[i] = new JLabel("Offset "+ (i+1)
 					+ " servo position [%]:");
@@ -124,7 +130,7 @@ public class InCalibrationActuator extends JPanel{
 
 		//--------------------------------------------------------------------//
 		JPanel content1 = new JPanel(new MigLayout("", //"",""));
-				"[min!][fill, 15%!][min!]", ""));
+				"[25%!][fill, 15%!][min!]", ""));
 		for (int i = 0; i<NUM_PRESSURES; i++) {
 			lblPressures[i] = new JLabel("Pressure sensor "+(i+1) + " [bar]:");
 			jTxtPres[i] = new JTextField();
@@ -139,7 +145,7 @@ public class InCalibrationActuator extends JPanel{
 
 		//--------------------------------------------------------------------//
 		JPanel content1Press = new JPanel(new MigLayout("", //"",""));
-				"[min!][fill, 15%!][min!]", ""));
+				"[33%!][fill, 15%!][min!]", ""));
 		for (int i = 0; i<NUM_PRESSURES; i++) {
 			lblSpanPres[i] = new JLabel("Span pressure sensor "+(i+1) 
 					+ " [16 bits to bar]:");
@@ -158,7 +164,7 @@ public class InCalibrationActuator extends JPanel{
 
 		//--------------------------------------------------------------------//
 		JPanel content1OffPress = new JPanel(new MigLayout("", //"",""));
-				"[min!][fill, 15%!][min!]", ""));
+				"[28%!][fill, 15%!][min!]", ""));
 		for (int i = 0; i<NUM_PRESSURES; i++) {
 			lblOffPres[i] = new JLabel("Offset pressure sensor "+(i+1) 
 					+ " [bar]:");
@@ -177,26 +183,25 @@ public class InCalibrationActuator extends JPanel{
 		
 		//--------------------------------------------------------------------//
 		JPanel content2 = new JPanel(new MigLayout("", 
-				"[min!][fill, 15%!]", ""));
-//		lblRunApply[0] = new JLabel("Run inputs calibration");
-//		checkRunApply[0] = new JCheckBox();
-//
-//		lblRunApply[1] = new JLabel("Apply calibration");
-//		checkRunApply[1] = new JCheckBox();
-//
-//		content2.add(lblRunApply[0], "grow, ");
-//		content2.add(checkRunApply[0], "grow, , wrap");
-//
-//		content2.add(lblRunApply[1], "grow, ");
-//		content2.add(checkRunApply[1], "grow, wrap");
+				"[25%!][fill, 15%!]", ""));
+		for (int i = 0; i<NUM_OTHER; i++) {
+			lblOther[i] = new JLabel();
+			jTxtOther[i] = new JTextField();
+			jTxtOther[i].setEnabled(false);
+			content2.add(lblOther[i], "grow, ");
+			content2.add(jTxtOther[i], "grow, , wrap");
+		}
+		lblOther[0].setText("L air pressure [bar]:");
+		lblOther[1].setText("Sled accelerometer [m/s²]:");
+		lblOther[2].setText("Rod accelerometer [m/s²]:");
 
-//		content2.setBorder(etchedLoweredBorder);
+		content2.setBorder(etchedLoweredBorder);
 		this.add(content2, "pushx, grow");
 		//--------------------------------------------------------------------//
 		
 		//--------------------------------------------------------------------//
 		// content 3
-		JPanel content3 = new JPanel(new MigLayout("", "[][fill, 15%!][]",
+		JPanel content3 = new JPanel(new MigLayout("", "[33%!][fill, 15%!][]",
 				""));
 		for (int i = 0; i<NUM_SPAN; i++) {
 			lblSpan[i] = new JLabel();
@@ -219,7 +224,7 @@ public class InCalibrationActuator extends JPanel{
 		
 		//--------------------------------------------------------------------//
 		// content 4
-		JPanel content4 = new JPanel(new MigLayout("", "[][fill, 15%!][]",
+		JPanel content4 = new JPanel(new MigLayout("", "[28%!][fill, 15%!][]",
 				""));
 		for (int i = 0; i<NUM_OFFSET; i++) {
 			lblOffset[i] = new JLabel();

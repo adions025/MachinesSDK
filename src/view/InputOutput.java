@@ -50,10 +50,15 @@ public class InputOutput extends JPanel {
 				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
 		//just icons for labels DI
+//		String filePathTmp = new File("").getAbsolutePath();
+//		Path evtDI = Paths.get(filePathTmp, File.separatorChar + "assets" + 
+//				File.separatorChar + "icons" + File.separatorChar + "22x22"+
+//				File.separatorChar + "actions" + File.separatorChar + 
+//				"green.png").normalize();
 		String filePathTmp = new File("").getAbsolutePath();
-		Path evtDI = Paths.get(filePathTmp, File.separatorChar + "assets" + 
-				File.separatorChar + "icons" + File.separatorChar + "22x22"+
-				File.separatorChar + "actions" + File.separatorChar + 
+		Path evtDI = Paths.get(filePathTmp, File.separatorChar + "icons" + 
+				File.separatorChar + "22x22"
+				+ File.separatorChar + "actions" + File.separatorChar + 
 				"green.png").normalize();
 
 		for (int i = 0; i<TOTAL_READINESS; i++) {
