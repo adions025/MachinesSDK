@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -14,12 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
 import net.miginfocom.swing.MigLayout;
 
-public class InputOutput extends JPanel {
+public class InputOutput extends JPanel implements ActionListener{
 
 	private ResourceBundle bundle = ResourceBundle.getBundle(
 			"res/lan/view/InputOutput");
@@ -38,8 +41,11 @@ public class InputOutput extends JPanel {
 	private final JCheckBox[] checkSiemens= new JCheckBox[TOTAL_SIEMENS];
 
 	private ControlActuator hyperG;
+	private Machine machine;
+	private JToggleButton btnRunStop;
 
-	public InputOutput() {
+	public InputOutput(Machine machine) {
+		this.machine = machine;
 		initComponents();
 	}
 
@@ -99,7 +105,8 @@ public class InputOutput extends JPanel {
 					"wrap");
 		}
 		
-		JButton btnRunStop = new JButton("Start");
+		btnRunStop = new JToggleButton("Start");
+		btnRunStop.addActionListener(this);
 		
 		//first vertical panel for general in out
 		JPanel content = new JPanel(new MigLayout("", "[]", "[][]"));
@@ -117,6 +124,24 @@ public class InputOutput extends JPanel {
 		hyperG = new ControlActuator();
 		content2.add("HyperG",hyperG);
 		this.add(content2, "push, grow, wrap");
+	}
+	
+	private void setEnable(boolean activate) {
+		machine.getTabs().setEnabledAt(1, activate);
+		machine.getTabs().setEnabledAt(2, activate);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRunStop) {
+			if (btnRunStop.isSelected()) {
+				setEnable(false);
+			}else {
+				setEnable(true);
+			}
+			
+			
+		}
 	}
 
 }

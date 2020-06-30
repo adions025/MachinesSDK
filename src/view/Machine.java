@@ -76,14 +76,19 @@ public class Machine extends JFrame{
 	}
 
 	private void initTabs() {
-		inOut = new InputOutput();
-		inCalibation = new InputsCalibration();
-		servo = new ServoValve();
+		inOut = new InputOutput(this);
+		inCalibation = new InputsCalibration(this);
+		servo = new ServoValve(this);
 
-		tabs.add("Inputs-Outputs", inOut);
+		tabs.add("Inputs-Outputs"
+				+ ""
+				+ "", inOut);
 		tabs.add("Inputs calibration", inCalibation);
 		tabs.add("Servovalve", servo);
 
 	}
 
+	public JTabbedPane getTabs() {
+		return tabs;
+	}
 }

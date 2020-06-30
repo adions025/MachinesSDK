@@ -99,6 +99,7 @@ public class InCalibrationActuator extends JPanel{
 			lblSpanSensor[i] = new JLabel("Span "+ (i+1) +
 					" servo position [16 bits to %]: ");
 			jTxtSpanSensor[i]= new JTextField();
+			jTxtSpanSensor[i].setText("0.0");
 			jTxtSpanSensor[i].setEnabled(false);
 			lblBtnSpanSensor[i] = new JLabel(
 					new ImageIcon(String.valueOf(evtDI)));
@@ -117,6 +118,7 @@ public class InCalibrationActuator extends JPanel{
 			lblOffServo[i] = new JLabel("Offset "+ (i+1)
 					+ " servo position [%]:");
 			jTxtlblOffServo[i]= new JTextField();
+			jTxtlblOffServo[i].setText("0.0");
 			jTxtlblOffServo[i].setEnabled(false);
 			lblBtnlblOffServo[i] = new JLabel(
 					new ImageIcon(String.valueOf(evtDI)));
@@ -150,6 +152,7 @@ public class InCalibrationActuator extends JPanel{
 			lblSpanPres[i] = new JLabel("Span pressure sensor "+(i+1) 
 					+ " [16 bits to bar]:");
 			jTxtSpanPres[i] = new JTextField();
+			jTxtSpanPres[i].setText("0.0");
 			jTxtSpanPres[i].setEnabled(false);
 			lblBtnSpanPres[i] = new JLabel(
 					new ImageIcon(String.valueOf(evtDI)));
@@ -169,6 +172,7 @@ public class InCalibrationActuator extends JPanel{
 			lblOffPres[i] = new JLabel("Offset pressure sensor "+(i+1) 
 					+ " [bar]:");
 			jTxtOffPres[i] = new JTextField();
+			jTxtOffPres[i].setText("0.0");
 			jTxtOffPres[i].setEnabled(false);
 			lblBtnOffPres[i] = new JLabel(
 					new ImageIcon(String.valueOf(evtDI)));
@@ -206,6 +210,7 @@ public class InCalibrationActuator extends JPanel{
 		for (int i = 0; i<NUM_SPAN; i++) {
 			lblSpan[i] = new JLabel();
 			jTxtSpane[i] = new JTextField();
+			jTxtSpane[i].setText("0.0");
 			jTxtSpane[i].setEnabled(false);
 
 			lblBtnSpan[i] = new JLabel(new ImageIcon(String.valueOf(evtDI)));
@@ -229,6 +234,7 @@ public class InCalibrationActuator extends JPanel{
 		for (int i = 0; i<NUM_OFFSET; i++) {
 			lblOffset[i] = new JLabel();
 			jTxtOffset[i] = new JTextField();
+			jTxtOffset[i].setText("0.0");
 			jTxtOffset[i].setEnabled(false);
 
 			lblBtnOffset[i] = new JLabel(new ImageIcon(String.valueOf(evtDI)));

@@ -13,6 +13,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
@@ -37,11 +38,13 @@ public class ServoValve extends JPanel  implements ActionListener{
 	private JTextField [] jtxtSetPoint = new JTextField[NUM_VALES];
 	private JLabel [] lblBtnPoint = new JLabel[NUM_VALES];
 
-	private JButton btnRunStop;
+	private JToggleButton btnRunStop;
 	//	private JButton btnApply;
 	private boolean runFlag;
+	private Machine machine;
 
-	public ServoValve() {
+	public ServoValve(Machine machine) {
+		this.machine = machine;
 		initComponent();
 	}
 
@@ -122,7 +125,7 @@ public class ServoValve extends JPanel  implements ActionListener{
 		JPanel footer = new JPanel(new MigLayout("", "", ""));
 		footer.setBorder(etchedLoweredBorder);
 
-		btnRunStop = new JButton("Start");
+		btnRunStop = new JToggleButton("Start");
 		//		btnApply = new JButton("Apply");
 		//		btnApply.addActionListener(this);
 		btnRunStop.addActionListener(this);
@@ -131,23 +134,23 @@ public class ServoValve extends JPanel  implements ActionListener{
 		this.add(footer, "grow, push, wrap");
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		//		if (e.getSource() == btnApply) {
-		//HERE APPLY BUTTON FUNCTION
-		//		}
-		if (e.getSource() == btnRunStop) {
-			changeBtnState();
-		}
+	private void setEnable(boolean activate) {
+		machine.getTabs().setEnabledAt(0, activate);
+		machine.getTabs().setEnabledAt(1, activate);
 	}
 
-	private void changeBtnState() {
-		if (runFlag) {
-			runFlag = false;
-			btnRunStop.setText("Stop");
-		}else {
-			runFlag = true;
-			btnRunStop.setText("Start");
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == btnRunStop) {
+			if (btnRunStop.isSelected()) {
+				btnRunStop.setText("Stop");
+				setEnable(false);
+			}else {
+				btnRunStop.setText("Start");
+				setEnable(true);
+			}
+			
+			
 		}
 	}
 }

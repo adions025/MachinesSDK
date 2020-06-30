@@ -112,9 +112,9 @@ public class ControlActuator extends JPanel implements ActionListener{
 	private Object [][] testDq = new Object[NUM_DI_DQ_AI][NUM_TEST_DQ];
 
 
-	int ID_NAME = 0;
-	int ID_STATE = 1;
-	int ID_CHECK = 1;
+	private int ID_NAME = 0;
+	private int ID_STATE = 1;
+	private int ID_CHECK = 1;
 
 	public ControlActuator() {
 		initComponents();
@@ -196,6 +196,7 @@ public class ControlActuator extends JPanel implements ActionListener{
 			lblPressure3[i] = new JLabel("Servo "+(i+1)+ ":");
 			jtxPressure3[i] = new JTextField();
 			jtxPressure3[i].setEnabled(false);
+			jtxPressure3[i].setText("0.0");
 			lblStatServo[i] = new JLabel();
 			lblStatServo[i].setIcon(
 					new ImageIcon(String.valueOf(evtDI2)));

@@ -26,8 +26,10 @@ public class InputsCalibration extends JPanel implements ActionListener{
 	private JButton btnRunStop;
 	private JButton btnApply;
 	private boolean runFlag = false;
+	private Machine machine;
 	
-	public InputsCalibration() {
+	public InputsCalibration(Machine machine) {
+		this.machine = machine;
 		initComponents();
 	}
 
@@ -57,23 +59,44 @@ public class InputsCalibration extends JPanel implements ActionListener{
 		this.add(runContent);
 	}
 	
+//	@Override
+//	public void actionPerformed(ActionEvent e) {
+//		if (e.getSource() == btnApply) {
+//			//HERE APPLY BUTTON FUNCTION
+//		}
+//		if (e.getSource() == btnRunStop) {
+//			changeBtnState();
+//		}
+//	}
+//	
+//	private void changeBtnState() {
+//		if (runFlag) {
+//			runFlag = false;
+//			btnRunStop.setText("Stop");
+//		}else {
+//			runFlag = true;
+//			btnRunStop.setText("Start");
+//		}
+//	}
+//	
+	
+	private void setEnable(boolean activate) {
+		machine.getTabs().setEnabledAt(0, activate);
+		machine.getTabs().setEnabledAt(1, activate);
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource() == btnApply) {
-			//HERE APPLY BUTTON FUNCTION
-		}
 		if (e.getSource() == btnRunStop) {
-			changeBtnState();
-		}
-	}
-	
-	private void changeBtnState() {
-		if (runFlag) {
-			runFlag = false;
-			btnRunStop.setText("Stop");
-		}else {
-			runFlag = true;
-			btnRunStop.setText("Start");
+			if (btnRunStop.isSelected()) {
+				btnRunStop.setText("Stop");
+				setEnable(false);
+			}else {
+				btnRunStop.setText("Start");
+				setEnable(true);
+			}
+			
+			
 		}
 	}
 }
