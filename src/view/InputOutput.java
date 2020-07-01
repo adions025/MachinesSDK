@@ -43,9 +43,11 @@ public class InputOutput extends JPanel implements ActionListener{
 	private ControlActuator hyperG;
 	private Machine machine;
 	private JToggleButton btnRunStop;
+	private Object rTest;
 
-	public InputOutput(Machine machine) {
+	public InputOutput(Machine machine, Object rTest) {
 		this.machine = machine;
+		this.rTest = rTest;
 		initComponents();
 	}
 
@@ -121,7 +123,7 @@ public class InputOutput extends JPanel implements ActionListener{
 		//second vertical panel
 		JTabbedPane content2 = new JTabbedPane();
 		//content2.setBorder(etchedLoweredBorder);
-		hyperG = new ControlActuator();
+		hyperG = new ControlActuator(rTest);
 		content2.add("HyperG",hyperG);
 		this.add(content2, "push, grow, wrap");
 	}
@@ -136,12 +138,23 @@ public class InputOutput extends JPanel implements ActionListener{
 		if (e.getSource() == btnRunStop) {
 			if (btnRunStop.isSelected()) {
 				setEnable(false);
+				hyperG.setTestRunBtnEnable(true);
+				hyperG.setServoInJtxtEnable(true);
 			}else {
 				setEnable(true);
+				hyperG.setTestRunBtnEnable(false);
+				hyperG.setServoInJtxtEnable(false);
 			}
 			
 			
 		}
 	}
 
+	public ControlActuator getHyperG() {
+		return hyperG;
+	}
+
+	public void setHyperG(ControlActuator hyperG) {
+		this.hyperG = hyperG;
+	}
 }

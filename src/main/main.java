@@ -18,7 +18,7 @@ public class main {
 	InstantiationException, IllegalAccessException, 
 	UnsupportedLookAndFeelException {
 		// TODO Auto-generated method stub
-		Machine machine = new Machine();
+		Machine machine = new Machine(null);
 		machine.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //		machine.setSize(new Dimension(width, height-25));
 		machine.setVisible(true);

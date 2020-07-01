@@ -250,4 +250,53 @@ public class InCalibrationActuator extends JPanel{
 		//--------------------------------------------------------------------//
 
 	}
+
+	public JTextField[] getjTxtSpanSensor() {
+		return jTxtSpanSensor;
+	}
+
+	public void setjTxtSpanSensor(JTextField[] jTxtSpanSensor) {
+		this.jTxtSpanSensor = jTxtSpanSensor;
+	}
+
+	public JLabel[] getLblBtnlblOffServo() {
+		return lblBtnlblOffServo;
+	}
+
+	public void setLblBtnlblOffServo(JLabel[] lblBtnlblOffServo) {
+		this.lblBtnlblOffServo = lblBtnlblOffServo;
+	}
+
+	public JTextField[] getjTxtSpanPres() {
+		return jTxtSpanPres;
+	}
+
+	public void setjTxtSpanPres(JTextField[] jTxtSpanPres) {
+		this.jTxtSpanPres = jTxtSpanPres;
+	}
+
+	public JLabel[] getLblBtnOffPres() {
+		return lblBtnOffPres;
+	}
+
+	public void setLblBtnOffPres(JLabel[] lblBtnOffPres) {
+		this.lblBtnOffPres = lblBtnOffPres;
+	}
+
+	public JTextField[] getjTxtSpane() {
+		return jTxtSpane;
+	}
+
+	public void setjTxtSpane(JTextField[] jTxtSpane) {
+		this.jTxtSpane = jTxtSpane;
+	}
+
+	public JLabel[] getLblBtnOffset() {
+		return lblBtnOffset;
+	}
+
+	public void setLblBtnOffset(JLabel[] lblBtnOffset) {
+		this.lblBtnOffset = lblBtnOffset;
+	}
+	
 }

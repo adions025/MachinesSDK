@@ -4,9 +4,16 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -19,10 +26,14 @@ import javax.swing.JToggleButton;
 import javax.swing.border.Border;
 import javax.swing.border.EtchedBorder;
 
+import com.sun.tools.javac.util.List;
+
 import model.Global;
+import model.LblsListener;
 import net.miginfocom.swing.MigLayout;
 
-public class ControlActuator extends JPanel implements ActionListener{
+public class ControlActuator extends JPanel implements ActionListener, 
+	MouseListener{
 
 	private static final int CONTROL_PRESURE = 12;
 	private JLabel[] lblPressure1 = new JLabel[CONTROL_PRESURE];
@@ -32,7 +43,7 @@ public class ControlActuator extends JPanel implements ActionListener{
 
 	private JTextField[] jtxPressure1 = new JTextField[CONTROL_PRESURE];
 	private JTextField[] jtxPressure2 = new JTextField[CONTROL_PRESURE];
-	private JTextField[] jtxPressure3 = new JTextField[CONTROL_PRESURE];
+	private JTextField[] jtxServo = new JTextField[CONTROL_PRESURE];
 
 	private static final int SLED_BRAKES = 10;
 	private JLabel[] lblSled = new JLabel[SLED_BRAKES];
@@ -103,22 +114,47 @@ public class ControlActuator extends JPanel implements ActionListener{
 	private static final int NUM_TRANS_AI = 5;
 	private Object [][] transAi = new Object[NUM_TRANS_AI][NUM_TRANS_AI];
 
-	//Combined components
-	private static final int NUM_COMBI_DQ = 4;
-	private Object [][] combiDq = new Object[NUM_DI_DQ_AI][NUM_COMBI_DQ];
+	//	//Combined components
+	//	private static final int NUM_COMBI_DQ = 4;
+	//	private Object [][] combiDq = new Object[NUM_DI_DQ_AI][NUM_COMBI_DQ];
 
 	//Functional unit test
 	private static final int NUM_TEST_DQ = 7;
 	private Object [][] testDq = new Object[NUM_DI_DQ_AI][NUM_TEST_DQ];
 
-
 	private int ID_NAME = 0;
 	private int ID_STATE = 1;
 	private int ID_CHECK = 1;
+	private Object rTest;
+//	private ArrayList<LblsListener> listeners = new ArrayList<LblsListener>();
 
-	public ControlActuator() {
+	private PropertyChangeSupport support;
+
+	public ControlActuator(Object rTest) {
+		this.rTest = rTest;
+		this.support = new PropertyChangeSupport(this);
 		initComponents();
+		setTestRunBtnEnable(false);
 	}
+
+	public void addPropertyChangeListener(PropertyChangeListener pcl) {
+		support.addPropertyChangeListener(pcl);
+	}
+
+	public void removePropertyChangeListener(PropertyChangeListener pcl) {
+		support.removePropertyChangeListener(pcl);
+	}
+
+	public void setNews(String value) {
+//		support.firePropertyChange(this.jtxServo[0].getText(), this.jtxServo[0], 
+//				value);
+//		support.fire
+		this.jtxServo[0].setText(value);
+	}
+	
+//	private void addListener(LblsListener newListener) {
+//		 listeners.add(newListener);
+//	}
 
 	private void initComponents() {
 		Border etchedLoweredBorder = 
@@ -194,16 +230,20 @@ public class ControlActuator extends JPanel implements ActionListener{
 			presure2.add(jtxPressure2[i], "wrap");
 
 			lblPressure3[i] = new JLabel("Servo "+(i+1)+ ":");
-			jtxPressure3[i] = new JTextField();
-			jtxPressure3[i].setEnabled(false);
-			jtxPressure3[i].setText("0.0");
+			jtxServo[i] = new JTextField();
+			jtxServo[i].setEnabled(false);
+			jtxServo[i].setText("0.0");
+			jtxServo[i].setName("beck"+i);
 			lblStatServo[i] = new JLabel();
 			lblStatServo[i].setIcon(
 					new ImageIcon(String.valueOf(evtDI2)));
+			lblStatServo[i].addMouseListener(this);
 			presure3.add(lblPressure3[i], "");
-			presure3.add(jtxPressure3[i], "");
+			presure3.add(jtxServo[i], "");
 			presure3.add(lblStatServo[i], "wrap");
 		}
+		
+		jtxServo[0].setName("beck");
 
 		int c = 1;
 		for (int i = 0; i<SLED_BRAKES; i++) {
@@ -312,7 +352,7 @@ public class ControlActuator extends JPanel implements ActionListener{
 				"Driving forward:");
 
 		((JLabel)pullDq[ID_NAME][4]).setText(
-				"Switch on:");
+				"Pull back switch on:");
 
 		((JLabel)pullDq[ID_NAME][5]).setText(
 				"Forward button:");
@@ -329,18 +369,18 @@ public class ControlActuator extends JPanel implements ActionListener{
 
 		int ID_TXT = 1;
 		for (int i = 0; i<pullAi[ID_NAME].length; i++) {
-			pullDq[ID_NAME][i]=new JLabel();
-			pullDq[ID_TXT][i]=new JTextField();
-			((JTextField)pullDq[ID_TXT][i]).setEnabled(false);
+			pullAi[ID_NAME][i]=new JLabel();
+			pullAi[ID_TXT][i]=new JTextField();
+			((JTextField)pullAi[ID_TXT][i]).setEnabled(false);
 
-			pullBack.add((JLabel) pullDq[ID_NAME][i], "");
-			pullBack.add((JTextField) pullDq[ID_TXT][i], "wrap");
+			pullBack.add((JLabel) pullAi[ID_NAME][i], "");
+			pullBack.add((JTextField) pullAi[ID_TXT][i], "wrap");
 		}
 		//AIs
-		((JLabel)pullDq[ID_NAME][0]).setText(
+		((JLabel)pullAi[ID_NAME][0]).setText(
 				"Hydraulic pressure supply:");
 
-		((JLabel)pullDq[ID_NAME][1]).setText(
+		((JLabel)pullAi[ID_NAME][1]).setText(
 				"SSI Laser sensor:");
 
 		//		pullBack.setBorder(etchedLoweredBorder);
@@ -734,13 +774,53 @@ public class ControlActuator extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		for (int i = 0; i<testDq[ID_STATE].length; i++) {
 			if (e.getSource() == testDq[ID_STATE][i]) {
-				if (((JToggleButton)testDq[ID_STATE][i]).isSelected()) {
-					setBttonEnable(i, false);
+				if (((JToggleButton)testDq[ID_STATE][i]).isSelected()) {	
+					setBttonEnable(i, false);	
 				}else {
 					setBttonEnable(i, true);
 				}
 			}
 		}
+	}
+	
+	
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		for (int i =0; i<lblStatServo.length; i++) {
+			if (e.getSource() == lblStatServo[i]) {
+//				setNews(jtxServo[i].getText());
+				support.firePropertyChange(this.jtxServo[i].getText(), 
+						this.jtxServo[i], jtxServo[i].getText());
+//						value);
+			}
+		}
+
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	/**
@@ -753,9 +833,63 @@ public class ControlActuator extends JPanel implements ActionListener{
 				((JToggleButton)testDq[ID_STATE][i]).setEnabled(activate);
 			}	
 		}
+
+		for (int i = 0; i < pullDq[ID_CHECK].length; i++) {
+			((JCheckBox)pullDq[ID_CHECK][i]).setSelected(false);
+			((JCheckBox)pullDq[ID_CHECK][i]).setEnabled(activate);
+		}
+
+		for (int i = 0; i < fastDq[ID_CHECK].length; i++) {
+			((JCheckBox)fastDq[ID_CHECK][i]).setSelected(false);
+			((JCheckBox)fastDq[ID_CHECK][i]).setEnabled(activate);
+		}
+
+		for (int i = 0; i<transDq[ID_CHECK].length; i++) {
+			((JToggleButton)transDq[ID_CHECK][i]).setSelected(false);
+			((JToggleButton)transDq[ID_CHECK][i]).setEnabled(activate);
+		}
+
+		for (int i =0; i<sBrakeDq[ID_CHECK].length; i++) {
+			((JToggleButton)sBrakeDq[ID_CHECK][i]).setSelected(false);
+			((JToggleButton)sBrakeDq[ID_CHECK][i]).setEnabled(activate);
+		}
+
+		for (int i =0; i<hppFastDq[ID_CHECK].length; i++) {
+			((JToggleButton)hppFastDq[ID_CHECK][i]).setSelected(false);
+			((JToggleButton)hppFastDq[ID_CHECK][i]).setEnabled(activate);
+		}
+
+		for (int i =0; i<hppBrakeDq[ID_CHECK].length; i++) {
+			((JToggleButton)hppBrakeDq[ID_CHECK][i]).setSelected(false);
+			((JToggleButton)hppBrakeDq[ID_CHECK][i]).setEnabled(activate);
+		}
 	}
 
+	private void setTransductorBtnEnable(boolean activate) {
+		for (int i = 0; i<transDq[ID_CHECK].length; i++) {
+			((JToggleButton)transDq[ID_CHECK][i]).setEnabled(activate);
+		}
+	}
 
+	public void setServoInJtxtEnable(boolean activate) {
+		for (int i =0; i<CONTROL_PRESURE; i++) {
+			jtxServo[i].setEnabled(activate);
+		}
+	}
+
+	public void setTestRunBtnEnable(boolean activate) {
+		for (int i = 0; i<testDq[ID_STATE].length; i++) {
+			((JToggleButton)testDq[ID_STATE][i]).setEnabled(activate);
+		}
+	}
+
+	public JTextField[] getJtxPressure3() {
+		return jtxServo;
+	}
+
+	public void setJtxPressure3(JTextField[] jtxPressure3) {
+		this.jtxServo = jtxPressure3;
+	}	
 }
 
 

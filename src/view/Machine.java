@@ -26,8 +26,10 @@ public class Machine extends JFrame{
 	private InputOutput inOut;
 	private InputsCalibration inCalibation;
 	private ServoValve servo;
+	private Object rTest;
 
-	public Machine() {
+	public Machine(Object rTest) {
+		this.rTest = rTest;
 		initComponents();
 		initTabs();
 	}
@@ -76,7 +78,7 @@ public class Machine extends JFrame{
 	}
 
 	private void initTabs() {
-		inOut = new InputOutput(this);
+		inOut = new InputOutput(this, rTest);
 		inCalibation = new InputsCalibration(this);
 		servo = new ServoValve(this);
 
@@ -90,5 +92,29 @@ public class Machine extends JFrame{
 
 	public JTabbedPane getTabs() {
 		return tabs;
+	}
+
+	public InputOutput getInOut() {
+		return inOut;
+	}
+
+	public void setInOut(InputOutput inOut) {
+		this.inOut = inOut;
+	}
+
+	public InputsCalibration getInCalibation() {
+		return inCalibation;
+	}
+
+	public void setInCalibation(InputsCalibration inCalibation) {
+		this.inCalibation = inCalibation;
+	}
+
+	public ServoValve getServo() {
+		return servo;
+	}
+
+	public void setServo(ServoValve servo) {
+		this.servo = servo;
 	}
 }
